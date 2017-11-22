@@ -29,18 +29,39 @@ namespace PreFinalQuiz1_LaoM.Controllers
                     {
                         while (data.Read())
                         {
-                            list.Add(new TitlesModels
+                            double a;
+                            string c = (data["titlePrice"].ToString());
+                            bool b = double.TryParse(c, out a);
+                            if (b == true)
                             {
-                                ID = Convert.ToInt32(data["titleID"].ToString()),
-                                Publisher = data["pubName"].ToString(),
-                                Author = data["authorLN"].ToString(),
-                                AuthorFN = data["authorFN"].ToString(),
-                                TitleName = data["titleName"].ToString(),
-                                Price = double.Parse(data["titlePrice"].ToString()),
-                                Date = DateTime.Parse(data["titlePubDate"].ToString()),
-                                Notes = data["titleNotes"].ToString()
+                                list.Add(new TitlesModels
+                                {
+                                    ID = Convert.ToInt32(data["titleID"].ToString()),
+                                    Publisher = data["pubName"].ToString(),
+                                    Author = data["authorLN"].ToString(),
+                                    AuthorFN = data["authorFN"].ToString(),
+                                    TitleName = data["titleName"].ToString(),
+                                    Price = double.Parse(data["titlePrice"].ToString()),
+                                    Date = DateTime.Parse(data["titlePubDate"].ToString()),
+                                    Notes = data["titleNotes"].ToString()
+                                });
+                            }
+                            else
+                            {
+                                list.Add(new TitlesModels
+                                {
+                                    ID = Convert.ToInt32(data["titleID"].ToString()),
+                                    Publisher = data["pubName"].ToString(),
+                                    Author = data["authorLN"].ToString(),
+                                    AuthorFN = data["authorFN"].ToString(),
+                                    TitleName = data["titleName"].ToString(),
+                                    Price = 0,
+                                    Date = DateTime.Parse(data["titlePubDate"].ToString()),
+                                    Notes = data["titleNotes"].ToString()
+                                });
+                            }
 
-                            });
+
                         }
                     }
                 }
@@ -48,6 +69,7 @@ namespace PreFinalQuiz1_LaoM.Controllers
 
             return View(list);
         }
+
         public ActionResult Add()
         {
             TitlesModels title = new TitlesModels();
